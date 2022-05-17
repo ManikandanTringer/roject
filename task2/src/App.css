@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  color: #666;
+}
+
+h1 {
+  font-weight: 500;
+  margin: 0;
+  text-align: left;
+  font-size: 17px;
+}
+
+h2 {
+  font-weight: 500;
+  margin: 5px 0;
+  text-align: left;
+  font-size: 14px;
+}
+
+h3 {
+  text-align: left;
+  font-weight: 400;
+  margin: 0;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: 10px;
+  font-family: "Open Sans", sans-serif;
+}
+
+.App {
+  height: calc(100vh - 50px);
+  width: 100vw;
+  text-align: center;
+  padding-top: 50px;
+}
+
+.App-logo {
+  height: 80px;
+  display: inline-block;
+  padding: 10px;
+}
+
+.Basic-info {
+  display: block;
+  margin-top: 20px;
+  padding: 0 25px 20px 25px;
+}
+
+.Business-card {
+  height: fit-content;
+  text-align: center;
+  width: 440px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 50px;
+  background-color: #ffffff;
+  box-shadow: 0 0 11px rgba(33,33,33,.2);
+}
+
+.Night-mode {
+  background-color: #666666;
+}
+
+.Night-mode .Business-card {
+  background-color: #666666;
+  color: #ffffff;
+  box-shadow: 0 0 11px rgba(255,255,255,.2);
+}
+
+.Contact-icon {
+  vertical-align: bottom;
+  margin-right: 5px;
+  height: 10px;
+  width: 10px;
+}
+
+.Contact-info {
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+.Logo-container{
+  text-align: right;
+}
