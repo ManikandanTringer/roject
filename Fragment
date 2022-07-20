@@ -1,0 +1,532 @@
+package com.example.mytask;
+
+import static android.widget.Toast.LENGTH_SHORT;
+
+import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
+import androidx.lifecycle.ViewModelProvider;
+
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+/**
+ *
+ * */
+public class Fragment1 extends Fragment {
+
+  View view;
+  ItemViewModel viewModel;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        view = inflater.inflate(R.layout.fragment_1, container, false);
+        //onclick listener for send_btn
+        Button send_btn1=view.findViewById(R.id.send_btn1);
+        send_btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                EditText data_text=view.findViewById(R.id.data_text1);
+//                Bundle result =new Bundle();
+//                result.putString("data1",data_text.getText().toString());
+//                getParentFragmentManager().setFragmentResult("dataFrom1",result);
+//                data_text.setText("");
+            }
+        });
+        //Displaying the data that is received from fragment 2
+//        getParentFragmentManager().setFragmentResultListener("dataFrom2", this, new FragmentResultListener() {
+//            @Override
+//            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+//
+//                String data=result.getString("data2");
+//                TextView dataDisplay1=view.findViewById(R.id.dataDisplay1);
+//                dataDisplay1.setText(data);
+//            }
+//        });
+
+
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        viewModel=new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
+        Button send=view.findViewById(R.id.send_btn1);
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditText editText=view.findViewById(R.id.data_text1);
+                viewModel.setData(editText.getText().toString());
+
+            }
+        });
+    }
+}
+
+
+
+,--->
+
+
+package com.example.mytask;
+
+import static android.widget.Toast.LENGTH_SHORT;
+
+import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
+import androidx.lifecycle.ViewModelProvider;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+
+public class Fragment2 extends Fragment {
+
+    View view;
+    ItemViewModel viewModel;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+     }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        view = inflater.inflate(R.layout.fragment_2, container, false);
+
+//        Button send_btn2=(Button) view.findViewById(R.id.send_btn2);
+//        send_btn2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                EditText data_text=view.findViewById(R.id.data_text2);
+//                Bundle result =new Bundle();
+//                result.putString("data2",data_text.getText().toString());
+//                getParentFragmentManager().setFragmentResult("dataFrom2",result);
+//                data_text.setText("");
+//                Toast.makeText(getContext(),"send1",LENGTH_SHORT);
+//            }
+//        });
+
+//        getParentFragmentManager().setFragmentResultListener("dataFrom1", this, new FragmentResultListener() {
+//            @Override
+//            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+//                String data=result.getString("data1");
+//                TextView dataDisplay2=view.findViewById(R.id.dataDisplay2);
+//                dataDisplay2.setText(data);
+//            }
+//        });
+        return view;
+    }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        viewModel=new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
+        Button send=view.findViewById(R.id.send_btn2);
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditText editText=view.findViewById(R.id.data_text2);
+                viewModel.setData(editText.getText().toString());
+
+            }
+        });
+    }
+}
+
+
+
+<--->
+
+
+package com.example.mytask;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+
+public class ItemViewModel extends ViewModel {
+
+    private final MutableLiveData<String> selectedItem =new MutableLiveData<String>();
+
+    public void setData(String item){
+        selectedItem.setValue(item);
+    }
+    public LiveData<String> getSelectedItem(){
+        return selectedItem;
+    }
+}
+
+
+
+<-->
+
+package com.example.mytask;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    Button submit_btn;
+    EditText email_input;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        submit_btn=(Button) findViewById(R.id.submit);
+        email_input=(EditText) findViewById(R.id.email);
+
+        submit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String emailValue=email_input.getText().toString();
+                // passing the data to Second Activity
+                Intent intent = new Intent(getApplicationContext(),SecondActivity.class);
+                intent.putExtra("EXTRA_EMAIL",emailValue);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+        }
+    }
+}
+
+
+<-->
+
+
+
+package com.example.mytask;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+public class SecondActivity extends AppCompatActivity {
+
+    TextView displayView;
+//    Button for fragments
+    Button fragment1_btn,fragment2_btn;
+    TextView fragmentDisplay;
+    private  ItemViewModel viewModel;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_second);
+
+        displayView=(TextView) findViewById(R.id.displayInfo);
+        // Receive the data from MainActivity
+        Intent intent=getIntent();
+        String emailValue=intent.getStringExtra("EXTRA_EMAIL");
+
+        displayView.setText(emailValue);
+
+        fragmentDisplay=findViewById(R.id.fragment_display);
+
+        viewModel=new ViewModelProvider(this).get(ItemViewModel.class);
+        viewModel.getSelectedItem().observe(this,item ->{
+            fragmentDisplay.setText(item);
+        });
+
+        fragment1_btn=findViewById(R.id.fragment1_btn);
+        fragment2_btn=findViewById(R.id.fragment2_btn);
+        fragment1_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                replaceFragment(new Fragment1());
+            }
+        });
+        fragment2_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                replaceFragment(new Fragment2());
+            }
+        });
+
+    }
+
+
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager=getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.framelayout,fragment);
+        fragmentTransaction.commit();
+    }
+}
+
+
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="211dp"
+        android:layout_height="86dp"
+        android:text="Hello World!"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.117" />
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginEnd="75dp"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="344dp" />
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="104dp"
+        android:layout_marginEnd="156dp"
+        android:text="Submit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SecondActivity">
+
+    <TextView
+        android:id="@+id/displayInfo"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:text="TextView" />
+
+    <FrameLayout
+        android:id="@+id/framelayout"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/fragment_display"
+        android:text="Fragment Text"
+        android:textSize="20dp"
+        android:layout_marginTop="10dp"
+        />
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+       <Button
+           android:id="@+id/fragment1_btn"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:backgroundTint="@color/black"
+           android:text="Fragment 1"
+           android:layout_marginTop="10dp"
+           android:layout_marginStart="50dp"
+           />
+       <Button
+           android:id="@+id/fragment2_btn"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:backgroundTint="@color/black"
+           android:text="Fragment 2"
+           android:layout_marginTop="10dp"
+           android:layout_marginStart="50dp"
+           />
+   </LinearLayout>
+
+</LinearLayout>
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment1"
+    android:background="@color/green"
+    >
+
+    <!-- TODO: Update blank fragment layout -->
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/fragment1"
+        android:textSize="30dp"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textColor="@color/cardview_dark_background"/>
+
+    <EditText
+        android:id="@+id/data_text1"
+        android:layout_width="273dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="80dp"
+        android:text="Enter the Data"
+        android:textSize="24dp" />
+
+    <Button
+        android:id="@+id/send_btn1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="150dp"
+        android:gravity="center"
+        android:text="SEND" />
+
+    <TextView
+        android:id="@+id/dataDisplay1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:textAlignment="center"
+        android:text="No data"
+        android:textSize="30dp"
+        />
+
+</FrameLayout>
+
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment2"
+    android:background="@color/purple_200">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="@string/fragment2"
+        android:textColor="@color/cardview_dark_background"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+    <EditText
+        android:id="@+id/data_text2"
+        android:layout_width="273dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="80dp"
+        android:text="Enter the Data"
+        android:textSize="24dp" />
+
+    <Button
+        android:id="@+id/send_btn2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="150dp"
+        android:gravity="center"
+        android:text="SEND" />
+
+    <TextView
+        android:id="@+id/dataDisplay2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:textAlignment="center"
+        android:textSize="30dp"
+        android:text="No data"/>
+</FrameLayout>
+
+
+
+<resources>
+    <string name="app_name">MyTask</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="fragment1">Fragment 1</string>
+    <string name="fragment2">Fragment 2</string>
+</resources>
+
+
+
